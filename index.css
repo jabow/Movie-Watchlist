@@ -1,0 +1,191 @@
+/* ##### CSS RESET ##### */
+
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+}
+
+* {
+	margin: 0;
+	padding: 0;
+	font: inherit;
+}
+
+html {
+	color-scheme: dark light;
+}
+
+body {
+	min-height: 100vh;
+	display: flex;
+	flex-direction: column;
+	height: 100vh;
+}
+
+img,
+picture,
+svg,
+video {
+	display: block;
+	max-width: 100%;
+}
+
+/* ##### END CSS RESET ##### */
+
+/* ##### HEADER ##### */
+.head {
+	font-family: "Inter";
+	font-style: normal;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-around;
+	align-items: center;
+	min-height: 208px;
+	/* background-image: url(images/header.jpg); */
+	background: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)),
+		url("images/header.jpg");
+	background-position: 0px -300px;
+	background-size: cover;
+}
+
+header a.find {
+	font-weight: 800;
+	font-size: 42.7947px;
+	line-height: 24px;
+}
+
+header a.watch {
+	font-weight: 700;
+	font-size: 14px;
+	line-height: 20px;
+}
+
+a,
+a:hover,
+a:visited,
+a:active {
+	color: inherit;
+	text-decoration: none;
+	cursor: pointer;
+}
+
+/* ##### END HEADER ##### */
+
+/* ##### SEARCH BAR ##### */
+.wrap {
+	width: 50%;
+	position: absolute;
+	top: 208px;
+	margin: 0 auto;
+	left: 50%;
+	transform: translate(-50%, -50%);
+}
+
+.search {
+	width: 100%;
+	position: relative;
+	display: flex;
+	justify-content: space-between;
+	background: #ffffff;
+	border: 1px solid #d1d5db;
+	box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.05);
+	border-radius: 6px;
+}
+
+.searchBox {
+	display: flex;
+	border: 1px solid #ddd;
+	background: #f1f1f1;
+	padding: 0px 15px 0px 15px;
+	flex-grow: 1;
+}
+
+.searchIcon {
+	width: 16px;
+	height: 16px;
+	align-self: center;
+}
+
+input[type="text"]:focus {
+	outline: none;
+}
+
+input[type="text"] {
+	color: #374151;
+}
+
+#searchTerm {
+	padding-left: 20px;
+	font-size: 17px;
+	border: none;
+	float: left;
+	width: 80%;
+	background: #f1f1f1;
+	flex-grow: 1;
+}
+
+#searchButton {
+	float: left;
+	padding: 9px 11px 9px 17px;
+	background: #f9fafb;
+	color: #374151;
+	font-family: "Inter";
+	font-style: normal;
+	font-weight: 500;
+	font-size: 14px;
+	line-height: 20px;
+	width: 120px;
+	height: 38px;
+	background: #f9fafb;
+	border: 1px solid #d1d5db;
+	border-radius: 0px 6px 6px 0px;
+	cursor: pointer;
+}
+
+/* ##### END SEARCH BAR ##### */
+
+/* ##### MAIN SECTION ##### */
+
+.main-section {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	height: 100%;
+}
+
+.no-items {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+/* ##### END MAIN SECTION ##### */
+
+/* ##### DARK THEME ##### */
+
+body.dark-theme {
+	color: #f3f4f6;
+	--tw-bg-opacity: 1;
+	--border-color: white;
+	background: #121212;
+}
+
+body.dark-theme .search,
+body.dark-theme .searchBox,
+body.dark-theme #searchTerm,
+body.dark-theme #searchButton {
+	background: #2e2e2f;
+	color: white;
+}
+
+body.dark-theme button {
+	background: #4b4b4b;
+	color: white;
+}
+
+body {
+	transition-duration: 300ms;
+}
+
+/* ##### END DARK THEME ##### */
