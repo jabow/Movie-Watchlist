@@ -25,14 +25,15 @@
 						type="text"
 						id="searchTerm"
 						placeholder="Search for a movie"
+						value="Star"
 					/>
 				</div>
 				<button type="submit" id="searchButton">Search</button>
 			</div>
 		</div>
 
-		<div class="main-section">
-			<div class="no-items">
+		<div id="main-section" class="empty">
+			<div id="no-items">
 				<svg
 					class="explore"
 					width="70"
@@ -50,7 +51,7 @@
 				</svg>
 				<h2>Start Exploring</h2>
 			</div>
-			<div id="movies find-movies"></div>
+			<div class="movies" id="find-movies"></div>
 		</div>
 		<script src="index.js"></script>
 	</body>
