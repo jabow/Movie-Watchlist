@@ -1,28 +1,28 @@
-const watchlist = document.getElementById("watchlist");
+import { getTheme, toggleDarkLightMode, createMovieHtml } from "./utils.js";
+
+const watchlist = document.getElementById("find-movies");
 const noMovies = document.getElementById("no-items");
 
+getTheme();
 renderWatchlist();
 
-//Clear the local storage
-document.getElementById("clear").addEventListener("click", function () {
-	console.log("here");
+//Clear the local storage FOR TESTING PURPOSES
+function clearLocalStorage() {
 	localStorage.clear();
-});
+}
 
 //Remove from watchlist listener
 watchlist.addEventListener("click", (e) => {
-	if (e.target.classList.contains("remove-watchlist")) {
+	if (e.target.classList.contains("add-remove-watchlist")) {
 		removeFromWatchlist(e.target.getAttribute("movie-id"));
 	}
 });
 
 async function renderWatchlist() {
 	let movieIdArray = JSON.parse(localStorage.getItem("watchlist-movie-ids"));
-	console.log(movieIdArray);
-	// console.log(movieIdArray.length);
+
 	//If no items
 	if (!Array.isArray(movieIdArray) || !movieIdArray.length) {
-		console.log("clear");
 		noMovies.style.display = "flex";
 		document.getElementById("main-section").classList.add("empty");
 		noMovies.innerHTML = `
@@ -40,28 +40,9 @@ async function renderWatchlist() {
 			`http://www.omdbapi.com/?i=${movieId}&apikey=b7d2a6fb`
 		);
 		const movieData = await result.json();
-
 		document.getElementById("main-section").classList.remove("empty");
 		noMovies.style.display = "none";
-
-		watchlist.innerHTML += `
-    <div class="movie">
-        <img src="${movieData.Poster}" class="movie-poster"/>
-        <div class="sections">
-            <div class="first-section">
-                <h1 class="movie-title">${movieData.Title}</h1>
-                <h2 class="movie-rating"><i class="fa-solid fa-star"></i> ${movieData.imdbRating}</h2>
-            </div>
-            <div class="second-section">
-                <h2 class="movie-length">${movieData.Runtime}</h2>
-                <h2 class="movie-genre">${movieData.Genre}</h2>
-                <h2 class="remove-watchlist" movie-id="${movieData.imdbID}"><i class="fa-solid fa-circle-minus remove-watchlist" movie-id="${movieData.imdbID}"></i> Remove from watchlist</h2>
-            </div>
-            <p class="movie-plot">${movieData.Plot}</p>   
-        </div>
-    </div> 
-    <hr>
-    `;
+		watchlist.innerHTML += createMovieHtml(movieData, true);
 	});
 }
 
@@ -73,25 +54,11 @@ function removeFromWatchlist(movieId) {
 		arr.splice(index, 1);
 	}
 	localStorage.setItem("watchlist-movie-ids", JSON.stringify(arr));
+	console.log("removed");
 	watchlist.innerHTML = "";
 	renderWatchlist();
 
 	//Add something to notify user item has been removed to watchlist
-
-	//If array is no empty display empty items again
-}
-
-//DUPLICATED CODE FROM INDEX.JS
-//Get users system theme setting
-getTheme();
-function getTheme() {
-	if (
-		window.matchMedia &&
-		window.matchMedia("(prefers-color-scheme: dark)").matches
-	) {
-		// dark mode
-		toggleDarkLightMode();
-	}
 }
 
 //check for changes in users system theme setting
@@ -110,16 +77,3 @@ window
 			toggleDarkLightMode();
 		}
 	});
-
-function toggleDarkLightMode() {
-	document.body.classList.toggle("dark-theme");
-}
-
-function toggleHide(id) {
-	var x = document.getElementById(id);
-	if (x.style.display === "none") {
-		x.style.display = "flex";
-	} else {
-		x.style.display = "none";
-	}
-}
