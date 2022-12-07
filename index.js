@@ -11,9 +11,9 @@ const noMovies = document.getElementById("no-items");
 // const watchlist = document.getElementById("watchlist");
 
 //TESTING
-document.getElementById("main-section").classList.remove("empty");
-noMovies.style.display = "none";
-handleSearch();
+// document.getElementById("main-section").classList.remove("empty");
+// noMovies.style.display = "none";
+// handleSearch();
 
 //END TESTING
 
@@ -24,6 +24,17 @@ searchBtn.addEventListener("click", function () {
 	handleSearch();
 });
 
+function noFilms(message) {
+	console.log("clear");
+	document.getElementById("main-section").classList.add("empty");
+	noMovies.style.display = "flex";
+	movies.innerHTML = "";
+	noMovies.innerHTML = `
+        <h2>${message}. Please try another search.</h2>
+    `;
+	return;
+}
+
 //Add to watchlist listener
 movies.addEventListener("click", (e) => {
 	if (e.target.classList.contains("add-watchlist")) {
@@ -33,10 +44,26 @@ movies.addEventListener("click", (e) => {
 
 async function handleSearch() {
 	const searchTerm = document.getElementById("searchTerm").value;
+
+	//If search value is empty
+	if (!searchTerm) {
+		noFilms("Nothing was entered in the search box");
+		return;
+	}
+
 	const res = await fetch(
 		`http://www.omdbapi.com/?s=${searchTerm}&type=movie&apikey=b7d2a6fb`
 	);
 	const data = await res.json();
+
+	//If no movies are found
+	console.log(data.Response);
+	if (data.Response === "False") {
+		// console.log(data.Error);
+		noFilms(data.Error);
+		return;
+	}
+
 	movies.innerHTML = "";
 	//Map through all the movies returned and search based on their ID to find more detailed info
 	data.Search.map(async (film) => {

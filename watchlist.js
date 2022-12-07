@@ -32,7 +32,7 @@ async function renderWatchlist() {
 				<h3>Let’s add some movies!</h3>
 			</a>
 		`;
-		return 0;
+		return;
 	}
 
 	movieIdArray.map(async (movieId) => {
