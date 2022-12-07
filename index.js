@@ -7,7 +7,7 @@
 const searchBtn = document.getElementById("searchButton");
 const movies = document.getElementById("find-movies");
 const noMovies = document.getElementById("no-items");
-const addWatchlist = document.getElementById("add-watchlist");
+// const addWatchlist = document.getElementById("add-watchlist");
 // const watchlist = document.getElementById("watchlist");
 
 //TESTING
@@ -26,7 +26,7 @@ searchBtn.addEventListener("click", function () {
 
 //Add to watchlist listener
 movies.addEventListener("click", (e) => {
-	if (e.target.classList.contains("fa-circle-plus")) {
+	if (e.target.classList.contains("add-watchlist")) {
 		addToWatchlist(e.target.getAttribute("movie-id"));
 	}
 });
@@ -61,7 +61,7 @@ function createMovieHtml(movieData) {
             <div class="second-section">
                 <h2 class="movie-length">${movieData.Runtime}</h2>
                 <h2 class="movie-genre">${movieData.Genre}</h2>
-                <h2 id="add-watchlist"><i class="fa-solid fa-circle-plus" movie-id="${movieData.imdbID}"></i> Add to watchlist</h2>
+                <h2 class="add-watchlist" movie-id="${movieData.imdbID}"><i class="fa-solid fa-circle-plus add-watchlist" movie-id="${movieData.imdbID}"></i> Add to watchlist</h2>
             </div>
             <p class="movie-plot">${movieData.Plot}</p>   
         </div>

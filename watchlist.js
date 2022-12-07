@@ -9,12 +9,29 @@ document.getElementById("clear").addEventListener("click", function () {
 	localStorage.clear();
 });
 
+//Remove from watchlist listener
+watchlist.addEventListener("click", (e) => {
+	if (e.target.classList.contains("remove-watchlist")) {
+		removeFromWatchlist(e.target.getAttribute("movie-id"));
+	}
+});
+
 async function renderWatchlist() {
 	let movieIdArray = JSON.parse(localStorage.getItem("watchlist-movie-ids"));
 	console.log(movieIdArray);
-
+	// console.log(movieIdArray.length);
 	//If no items
-	if (movieIdArray === null) {
+	if (!Array.isArray(movieIdArray) || !movieIdArray.length) {
+		console.log("clear");
+		noMovies.style.display = "flex";
+		document.getElementById("main-section").classList.add("empty");
+		noMovies.innerHTML = `
+			<h2>Your watchlist is looking a little empty...</h2>
+			<a href="./index.html" class="add-movies">
+				<i class="fa-solid fa-circle-plus"></i>
+				<h3>Let’s add some movies!</h3>
+			</a>
+		`;
 		return 0;
 	}
 
@@ -38,7 +55,7 @@ async function renderWatchlist() {
             <div class="second-section">
                 <h2 class="movie-length">${movieData.Runtime}</h2>
                 <h2 class="movie-genre">${movieData.Genre}</h2>
-                <h2 id="add-watchlist"><i class="fa-solid fa-circle-minus" movie-id="${movieData.imdbID}"></i> Add to watchlist</h2>
+                <h2 class="remove-watchlist" movie-id="${movieData.imdbID}"><i class="fa-solid fa-circle-minus remove-watchlist" movie-id="${movieData.imdbID}"></i> Remove from watchlist</h2>
             </div>
             <p class="movie-plot">${movieData.Plot}</p>   
         </div>
@@ -48,27 +65,23 @@ async function renderWatchlist() {
 	});
 }
 
-// export { renderWatchlist, createMovieHtml, watchlistArray };
+function removeFromWatchlist(movieId) {
+	//Get the current storage array and push the new id to it before setting the localStorage including the new ID
+	let arr = JSON.parse(localStorage.getItem("watchlist-movie-ids"));
+	var index = arr.indexOf(movieId);
+	if (index !== -1) {
+		arr.splice(index, 1);
+	}
+	localStorage.setItem("watchlist-movie-ids", JSON.stringify(arr));
+	watchlist.innerHTML = "";
+	renderWatchlist();
 
-// `
-//     <div class="movie">
-//         <img src="${movieData.Poster}" class="movie-poster"/>
-//         <div class="sections">
-//             <div class="first-section">
-//                 <h1 class="movie-title">${movieData.Title}</h1>
-//                 <h2 class="movie-rating">${movieData.imdbRating}</h2>
-//             </div>
-//             <div class="second-section">
-//                 <h2 class="movie-length">${movieData.Runtime}</h2>
-//                 <h2 class="movie-genre">${movieData.Genre}</h2>
-//                 <h2 id="add-watchlist">Add to watchlist</h2>
-//             </div>
-//             <p class="movie-plot">${movieData.Plot}</p>
-//         </div>
-//     </div>
-//     <hr>
-//     `
+	//Add something to notify user item has been removed to watchlist
 
+	//If array is no empty display empty items again
+}
+
+//DUPLICATED CODE FROM INDEX.JS
 //Get users system theme setting
 getTheme();
 function getTheme() {
