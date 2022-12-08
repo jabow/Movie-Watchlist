@@ -1,3 +1,5 @@
+const baseUrl = "https://www.omdbapi.com/?";
+
 //Get users system theme setting
 // getTheme();
 function getTheme() {
@@ -52,4 +54,4 @@ function createMovieHtml(movieData, isOnWatchlist) {
     `;
 }
 
-export { getTheme, toggleDarkLightMode, toggleHide, createMovieHtml };
+export { getTheme, toggleDarkLightMode, toggleHide, createMovieHtml, baseUrl };

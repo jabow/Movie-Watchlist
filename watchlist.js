@@ -1,4 +1,9 @@
-import { getTheme, toggleDarkLightMode, createMovieHtml } from "./utils.js";
+import {
+	getTheme,
+	toggleDarkLightMode,
+	createMovieHtml,
+	baseUrl,
+} from "./utils.js";
 
 const watchlist = document.getElementById("find-movies");
 const noMovies = document.getElementById("no-items");
@@ -36,9 +41,7 @@ async function renderWatchlist() {
 	}
 
 	movieIdArray.map(async (movieId) => {
-		const result = await fetch(
-			`http://www.omdbapi.com/?i=${movieId}&apikey=b7d2a6fb`
-		);
+		const result = await fetch(`${baseUrl}i=${movieId}&apikey=b7d2a6fb`);
 		const movieData = await result.json();
 		document.getElementById("main-section").classList.remove("empty");
 		noMovies.style.display = "none";

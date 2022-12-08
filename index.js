@@ -1,4 +1,9 @@
-import { getTheme, toggleDarkLightMode, createMovieHtml } from "./utils.js";
+import {
+	getTheme,
+	toggleDarkLightMode,
+	createMovieHtml,
+	baseUrl,
+} from "./utils.js";
 
 const searchBtn = document.getElementById("searchButton");
 const movies = document.getElementById("find-movies");
@@ -17,6 +22,7 @@ searchBtn.addEventListener("click", function () {
 movies.addEventListener("click", (e) => {
 	if (e.target.classList.contains("add-remove-watchlist")) {
 		addToWatchlist(e.target.getAttribute("movie-id"));
+		e.target.parentElement.parentElement.parentElement.remove();
 	}
 });
 
@@ -30,7 +36,7 @@ async function handleSearch() {
 	}
 
 	const res = await fetch(
-		`http://www.omdbapi.com/?s=${searchTerm}&type=movie&apikey=b7d2a6fb`
+		`${baseUrl}s=${searchTerm}&type=movie&apikey=b7d2a6fb`
 	);
 	const data = await res.json();
 
@@ -44,7 +50,7 @@ async function handleSearch() {
 	//Map through all the movies returned and search based on their ID to find more detailed info
 	data.Search.map(async (film) => {
 		const result = await fetch(
-			`http://www.omdbapi.com/?i=${film.imdbID}&apikey=b7d2a6fb`
+			`${baseUrl}i=${film.imdbID}&apikey=b7d2a6fb`
 		);
 		const movieData = await result.json();
 		movies.innerHTML += createMovieHtml(movieData, false);
@@ -63,14 +69,12 @@ function addToWatchlist(movieId) {
 }
 
 function noFilms(message) {
-	console.log("clear");
 	document.getElementById("main-section").classList.add("empty");
 	noMovies.style.display = "flex";
 	movies.innerHTML = "";
 	noMovies.innerHTML = `
         <h2>${message} Please try another search.</h2>
     `;
-	return;
 }
 
 //check for changes in users system theme setting
